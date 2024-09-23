@@ -1,0 +1,198 @@
+{{'test-section-1.css' | asset_url | stylesheet_tag }}
+
+<section class="custom-header-section">
+  
+    <div class="container">
+        <div class="header-content">
+            <!-- Menu Icon on the left for smaller screens -->
+            <div class="menu-icon" onclick="toggleMenu(this)">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+
+            <!-- Customizable Text Logo in the middle -->
+            <div class="header-logo">
+                <h1>{{ section.settings.logo_text }}</h1>
+            </div>
+            <div class="dropdown-content">
+                    <!-- Text in the dropdown -->
+                    <div class="header-text">
+                        <h1>{{ section.settings.header_text }}</h1>
+                    </div>
+
+                    <!-- Button in the dropdown -->
+                    <div class="header-button">
+                        <a href="{{ section.settings.button_link }}" class="button1">
+                            {{ section.settings.button_text }} <span class="arrow">→</span>
+                        </a>
+                    </div>
+            </div>
+        </div>
+        <div class="header1">
+        <!-- Dropdown Content (initially hidden for small screens) -->
+            <div class="dropdown-content">
+                    <!-- Text in the dropdown -->
+                    <div class="header-text">
+                        <h1>{{ section.settings.header_text }}</h1>
+                    </div>
+
+                    <!-- Button in the dropdown -->
+                    <div class="header-button">
+                        <a href="{{ section.settings.button_link }}" class="button1">
+                            {{ section.settings.button_text }} <span class="arrow">→</span>
+                        </a>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+  <div class="image-section" id="new-location">
+  <!-- Customizable Image on the right side -->
+            <div class="img-btn-container">
+                <img src="{{ 'section1-background.png' | asset_url }}" alt="Image" />
+                <div class="shop-now-btn" style="bottom: 20%; position: absolute; justify-content: space-around; left: 20%; right: 20%;">
+                    <a href="{{ section.settings.shop_now_btn_link }}" class="button2">
+                        {{ section.settings.shop_now_btn_text}} <span class="arrow-ico">→</span>
+                    </a>
+                </div>
+            </div>
+    
+  </div>
+  <div class="image-divider" id="original-location">
+        <div class="data-container column-1">
+                <h1>{{ section.settings.gift_heading }}</h1>
+                <p>{{ section.settings.shop_now_detail }}</p>
+            <div class="shop-now-btn">
+                <a href="{{ section.settings.shop_now_btn_link }}" class="button2">
+                    {{ section.settings.shop_now_btn_text}} <span class="arrow-ico">→</span>
+                </a>
+            </div>
+        </div>
+        <div class="image-container column-2">
+            <img src="{{ 'section1-background2.png' | asset_url }}" alt="Image" />
+        </div>
+    </div>
+    {% if section.settings.bottom_text_info != null %}
+      <div class="bottom-text-info">
+          <h2>{{ section.settings.bottom_text_info }}</h2>
+      </div>
+    {% endif %}
+</section>
+    
+
+
+
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+    // Get the menu icon
+        var menuIcon = document.querySelector('.menu-icon');
+        var headerContent = document.querySelector('.header1');
+
+        // Add click event to toggle the menu
+        menuIcon.addEventListener('click', function() {
+            headerContent.classList.toggle('menu-active');
+        });
+    });
+    function toggleMenu(element) {
+        element.classList.toggle('open');
+    }
+    document.addEventListener("DOMContentLoaded", function () {
+        const dataContainer = document.querySelector('.data-container.column-1');
+        const originalLocation = document.querySelector('#original-location');
+        const newLocation = document.querySelector('#new-location');
+
+        function handleScreenChange() {
+        const isBelow900px = window.innerWidth <= 900;
+
+        // Log the current state
+        //console.log("Current Width:", window.innerWidth);
+        //console.log("Is in New Location:", newLocation.contains(dataContainer));
+            
+        //if(originalLocation.contains(newLocation) !== null){
+        //    console.log("Is in Original Location:", originalLocation.contains(dataContainer));
+        //}
+            
+        if (isBelow900px) {
+            // Move to new location if below 900px
+            if (!newLocation.contains(dataContainer)) {
+                //console.log("Moving to new location");
+                newLocation.insertBefore(dataContainer, newLocation.firstChild);
+            }
+        } else {
+            // Move back to original location if 900px or above
+            if (!originalLocation.contains(dataContainer)) {
+                //console.log("Moving back to original location");
+                originalLocation.insertBefore(dataContainer, originalLocation.firstChild);
+            }
+        }
+    }
+    // Initial placement check
+    handleScreenChange();
+
+    // Listen for resize events
+    window.addEventListener('resize', handleScreenChange);
+    });
+</script>
+
+{% schema %}
+{
+  "name": "Section 1",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Logo Text",
+      "default": "Your Logo Text"
+    },
+    {
+      "type": "text",
+      "id": "header_text",
+      "label": "Header Text",
+      "default": "Your Store Name"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link",
+      "default": "/collections/all"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Shop Now"
+    },
+    {
+        "type":"text",
+        "id": "gift_heading",
+        "label": "Gift Heading",
+        "default": "Gift of the Day"
+    },
+    {
+        "type":"text",
+        "id": "shop_now_detail",
+        "label": "Shop Now Detail",
+        "default": "Discover our amazing products"
+    },
+    {
+        "type":"text",
+        "id": "shop_now_btn_text",
+        "label": "Shop Now Button Text",
+        "default": "Shop Now"
+    },
+    {
+        "type":"text",
+        "id": "bottom_text_info",
+        "label": "Bottom Info Text"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Section 1",
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,474 @@
+{{ 'test-section-2.css' | asset_url | stylesheet_tag }}
+<div class="overlay" id="overlay">&nbsp</div> <!-- Overlay -->
+<section class="section2">
+    {% if section.settings.header_text != null %}
+    <div class="heading">
+        <h2>{{ section.settings.header_text }}</h2>
+    </div>
+    {% endif %}
+
+    <div class="product-grid">
+    {% assign product_count = 0 %}
+    
+    {% assign max_products = section.settings.number_of_products | default: 3 %}
+    <!-- Loop through product blocks -->
+    {% for block in section.blocks %}
+      {% if product_count < max_products and product_count < 6 %}
+        {% assign product = all_products[block.settings.product] %}
+
+        {% if product %}
+          {% assign colors = product.variants | map: 'option1' | uniq %}
+          {% assign sizes = product.variants | map: 'option2' | uniq %}
+          {% assign variant_ids = product.variants | map: 'id' %}
+          {% assign variant_data = "" %}
+        {% for variant in product.variants %}
+            {% assign variant_info = "{ id: '" | append: variant.id | append: "', option1: '" | append: variant.option1 | append: "', option2: '" | append: variant.option2 | append: "' }" %}
+            {% assign variant_data = variant_data | append: variant_info %}
+            {% if forloop.last == false %}
+                {% assign variant_data = variant_data | append: ', ' %}
+            {% endif %}
+        {% endfor %}
+        {% assign variant_data = variant_data | slice: 0, variant_data.size %}
+          <div class="product-item">
+            <img src="{{ product.featured_image | img_url: 'large' }}" alt="{{ product.title }}" class="product-img-main">
+            <img src="{{ 'plus-icon.svg' | asset_url }}" alt="Plus Icon" class="plus-icon" style="position: absolute; top: {{ block.settings.icon_top }}%; left: {{ block.settings.icon_left }}%;" 
+            onclick="openPopup('{{ product.featured_image | img_url: 'large' }}', 
+            '{{ product.title }}', 
+            '{{ product.price | money }}', 
+            '{{ product.description | strip_html }}', 
+            ['{% for color in colors %}{{ color }}{% if forloop.last == false %}', '{% endif %}{% endfor %}'],
+            ['{% for size in sizes %}{{ size }}{% if forloop.last == false %}', '{% endif %}{% endfor %}'], 
+            ['{% for variant_id in variant_ids %}{{ variant_id }}{% if forloop.last == false %}', '{% endif %}{% endfor %}'], 
+            [{% for data in variant_data %}{{ data }}{% if forloop.last == false %}, {% endif %}{% endfor %}])"
+            />
+            
+          </div>
+          {% assign product_count = product_count | plus: 1 %}
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+</div>
+
+
+  <!-- Popup Structure -->
+<div id="product-popup" class="popup" style="display: none;">
+
+  <div class="popup-content">
+    <span class="close">&times;</span>
+    <div class="popup-image">
+      <img id="popup-image" src="" alt="">
+    </div>
+    <div class="popup-info">
+      <h2 id="popup-title"></h2>
+      <p id="popup-price"></p>
+      <p id="popup-description"></p>
+    </div>
+  </div>
+
+    <h1 class="color-option-heading">Color</h1>
+
+  <!-- Color Options Buttons -->
+      <div id="color-options" class="color-options-container">
+      
+        <!-- Buttons will be dynamically added here -->
+      </div>
+      <div id="color-slider" class="color-slider"></div> <!-- This will be the sliding box -->
+        
+
+        <h1 class="size-option-heading">Size</h1>
+        <div id="size-dropdown-container">
+            <div class="custom-select">
+                <div class="select-text" value="Chose you size"></div>
+                <div class="select-splitter">|</div>
+                <div class="select-arrow">
+                    <img src="http://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="arrow" />
+                </div>
+                <div class="select-options"></div>
+            </div>
+        </div>
+
+
+                    <div class="add-to-cart">
+                        <div class="add_to_cart_btn">
+                            
+                                ADD TO CART
+                            
+                        </div>
+                        <div class="add_to_cart_btn_arrow">
+                            <img src="{{ 'white-arrow.svg' | asset_url }}" alt="Image" class="white-arrow-cart-btn active"/>
+                            <img src="{{ 'black-arrow.svg' | asset_url }}" alt="Image" class="black-arrow-cart-btn"/>
+                        </div>
+                    </div>
+
+</div>
+
+<script>
+        function addToCart(productsToAdd) {
+            const data = {
+                items: productsToAdd // Wrap the array in an items object
+            };
+
+            fetch('/cart/add.js', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to add product to cart');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Product added to cart:', data);
+                // Optionally close the popup or show a success message
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+        document.addEventListener("DOMContentLoaded", function() {
+        const popup = document.getElementById('product-popup');
+        const closeBtn = document.querySelector('.close');
+        const overlay = document.getElementById('overlay'); // Reference to the overlay
+
+        // Function to open the popup with product details and color options
+        window.openPopup = function(imageSrc, title, price, description, colors, sizes, variant_ids, variant_data) {
+            console.log("Colors array:", colors); // Verify color data is passed correctly
+            console.log("Sizes array:", sizes);
+            console.log("VariantData:", variant_data);
+            document.getElementById('popup-image').src = imageSrc;
+            document.getElementById('popup-title').textContent = title;
+            document.getElementById('popup-price').textContent = price;
+            document.getElementById('popup-description').textContent = description;
+
+            const colorOptionsContainer = document.getElementById('color-options');
+            colorOptionsContainer.innerHTML = ''; // Clear previous buttons
+
+            const colorSlider = document.getElementById('color-slider');
+            let currentSelectedButton = null;
+
+            // Add color buttons dynamically
+            colors.forEach((color, index) => {
+            const backgroundColor = color.toLowerCase() === 'white' ? 'transparent' : color;
+            const noBorder = index === 0 ? true : false;
+            backgroundTransparent = "";
+            if (backgroundColor !='transparent'){
+                backgroundTransparent = false;
+            }else{
+                backgroundTransparent = true;
+            }
+            const colorButtonHTML = `
+                    <button class="col-btn" style="border-right:${noBorder ? 'none': '1px solid black'}">
+                    <div class="pre_section" style="background-color:${backgroundColor}; display: block!important;"></div> 
+                    <div class="btn-text-holder">${color}</div>
+                    </button>
+            `;
+            colorOptionsContainer.insertAdjacentHTML('beforeend', colorButtonHTML);
+            });
+
+            // Display the popup
+            popup.style.display = "flex"; // Make sure it's visible
+            overlay.style.display = "block"; // Show the overlay
+            const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth; // Calculate scrollbar width
+            document.body.style.overflow = "hidden"; // Hide overflow
+            document.body.style.marginRight = `${scrollbarWidth}px`;
+
+            const colorButtonsContainer = document.querySelector('.color-options-container');
+            const colorButtons = document.querySelectorAll('.col-btn');
+            const slider = document.getElementById('color-slider');
+            console.log('Number of buttons:', colorButtons.length);
+
+            // Initialize the MutationObserver
+                const observer = new MutationObserver(() => {
+                    // When the buttons are removed, remove the selected class
+                    colorButtons.forEach(button => {
+                        button.classList.remove('selected');
+                    });
+                });
+
+                // Start observing the container for child list changes
+                observer.observe(colorButtonsContainer, { childList: true });
+
+                colorButtons.forEach((button, index) => {
+                console.log('Number of buttons:', colorButtons.length);
+                button.addEventListener('click', () => {
+                // Remove 'selected' class from all buttons
+                colorButtons.forEach(btn => {
+                    btn.classList.remove('selected');
+                    
+                    // Remove the 'choice' class from the .btn-text-holder div in all buttons
+                    const textHolder = btn.querySelector('.btn-text-holder');
+                    if (textHolder) {
+                        textHolder.classList.remove('choice');
+                    }
+                    
+                });
+                
+                // Add 'selected' class to the clicked button
+                button.classList.add('selected');
+                
+                // Add 'choice' class to the .btn-text-holder div inside the clicked button only
+                const btnTextHolder = button.querySelector('.btn-text-holder');
+                if (btnTextHolder) {
+                    btnTextHolder.classList.add('choice');
+                }
+                
+                // Log the text of the clicked button's .btn-text-holder div
+                const buttonText = btnTextHolder ? btnTextHolder.textContent : '';
+                console.log('Clicked button text:', buttonText);
+
+                // Move the slider to the desired position based on the index
+                if (index === 0) {
+                    slider.style.left = '8%'; // First button position
+                    slider.classList.add('show');
+                } else {
+                    slider.style.left = '50.5%'; // Second button position
+                    slider.classList.add('show');
+                }
+            });
+            });
+
+                const sizeDropdownContainer = document.getElementById('size-dropdown-container');
+                    
+                // Clear any previous sizes
+                    sizeDropdownContainer.innerHTML = `
+                    <div class="custom-select">
+                        <div class="select-text" value="Chose you size">Chose you size</div>
+                        <div class="select-splitter">|</div>
+                        <div class="select-arrow">
+                        <img src="http://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="arrow" />
+                        </div>
+                        <div class="select-options"></div>
+                    </div>
+                    `;
+
+                    const selectText = sizeDropdownContainer.querySelector('.select-text');
+                    const selectOptions = sizeDropdownContainer.querySelector('.select-options');
+                    const defaultText = 'Chose you size';
+
+                    // Populate sizes dynamically
+                    sizes.forEach((size, index) => {
+                        const sizeOption = `
+                        <div class="option" value="${size}">${size}</div>`;
+                        selectOptions.insertAdjacentHTML('beforeend', sizeOption);
+                    });
+
+                    // Handle click to show/hide options
+                    const customSelect = sizeDropdownContainer.querySelector('.custom-select');
+                    customSelect.addEventListener('click', function() {
+                        if (!selectOptions.classList.contains('active')) {
+                            selectText.textContent = defaultText; // Set to default only when opening
+                            selectText.setAttribute('value', 'Chose you size');
+
+                        }
+                        //selectText.textContent = defaultText;
+                        selectOptions.classList.toggle('active');
+                    });
+
+                    // Add event listener for selecting an option
+                    const options = selectOptions.getElementsByClassName('option');
+
+                    Array.from(options).forEach(option => {
+                        option.addEventListener('click', () => {
+                        selectText.textContent = option.textContent; // Update the selected text
+                        selectText.setAttribute('value', option.getAttribute('value'));
+                        selectOptions.style.display = 'none'; // Close the options
+                        if (selectText.innerText === defaultText) {
+                            selectText.classList.remove('has-text');
+                        } else {
+                            selectText.classList.add('has-text');
+                        }
+                        });
+                    });
+
+                    // Close dropdown when clicking outside
+                    document.addEventListener('click', function(event) {
+                        if (!customSelect.contains(event.target)) {
+                            selectOptions.classList.remove('active');
+                        }
+                    });
+                               
+                               postRequest = document.querySelector('.add-to-cart');
+
+                               postRequest.addEventListener('click', getVariantId);
+                                function getVariantId() {
+                                    // Get the selected size from the div with class 'select-text'
+                                    const sizeDiv = document.querySelector('.select-text');
+                                    const selectedSize = sizeDiv ? sizeDiv.getAttribute('value') : null;
+
+                                    // Get the selected color from the button with class 'btn-text-holder choice'
+                                    const selectedColorButton = document.querySelector('.choice');
+                                    const selectedColor = selectedColorButton.innerText;
+
+                                    if (selectedSize && selectedColor) {
+                                        // Find the matching variant based on selected color and size
+                                        const matchingVariant = variant_data.find(variant =>
+                                            variant.option1 === selectedColor &&
+                                            variant.option2 === selectedSize
+                                        );
+
+                                        if (matchingVariant) {
+                                            console.log("Matching variant found:", matchingVariant.id);
+                                            
+                                            // Prepare the array of products to add
+                                            const productsToAdd = [
+                                                { id: matchingVariant.id, quantity: 1 } // Add the primary variant
+                                            ];
+
+                                            // Check if the conditions for adding both products are met
+                                            if (selectedColor == "Black" && selectedSize == "M") {
+                                                console.log("Adding both products to cart");
+                                                productsToAdd.push({ id: '49244861858101', quantity: 1 }); // Add the additional product
+                                                console.log(productsToAdd);
+                                            } else {
+                                                console.log("Adding product to cart");
+                                            }
+
+                                            // Call the addToCart function with the productsToAdd array
+                                            addToCart(productsToAdd);
+                                        } else {
+                                            console.log("No matching variant found.");
+                                        }
+                                    } else {
+                                        console.log("Please select both size and color.");
+                                    }
+                                }
+                    
+        };
+
+        const slider = document.getElementById('color-slider');
+        
+        
+        // Function to close the popup
+        function closePopup() {    
+            closingPopup();
+            popup.style.display = "none";
+            overlay.style.display = "none"; // Hide the overlay
+            document.body.style.overflow = "";
+            document.body.style.marginRight = "";
+            slider.classList.remove('show');
+            
+        }
+        function closingPopup() {
+                const colorButtons = document.querySelectorAll('.col-btn');
+                console.log(colorButtons);
+                colorButtons[0].classList.remove('selected');
+                colorButtons[1].classList.remove('selected');
+        }
+            overlay.addEventListener('click', function() {
+                closingPopup();
+                closePopup(); // Call the first function
+
+            });
+        // Close the popup when clicking the close button
+        closeBtn.onclick = closePopup;
+
+        const addToCartBtn = document.querySelector('.add-to-cart');
+        const whiteArrow = document.querySelector('.white-arrow-cart-btn');
+        const blackArrow = document.querySelector('.black-arrow-cart-btn');
+
+        addToCartBtn.addEventListener('mouseover', function() {
+            whiteArrow.classList.remove('active'); // Hide white arrow
+            blackArrow.classList.add('active');    // Show black arrow
+        });
+
+        addToCartBtn.addEventListener('mouseout', function() {
+            whiteArrow.classList.add('active');    // Show white arrow
+            blackArrow.classList.remove('active'); // Hide black arrow
+        });
+
+
+                
+        });
+        
+        
+
+
+</script>
+
+    {% comment %} <div class="product-grid">
+    <!-- Debugging: Print block and product data -->
+    {% for block in section.blocks %}
+      <div class="debug-block">
+        <strong>Block Settings:</strong>
+        <p>Product ID in Block: {{ block.settings.product }}</p>
+        
+        <!-- Try fetching the product -->
+        {% assign product = all_products[block.settings.product] %}
+
+        <!-- Debugging: Print individual product properties -->
+        {% if product %}
+          <p>Product Title: {{ product.title }}</p>
+          <p>Product URL: {{ product.url }}</p>
+          <p>Product Price: {{ product.price | money }}</p>
+        {% else %}
+          <p>Product not found or invalid product ID.</p>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div> {% endcomment %}
+</section>
+    
+{% schema %}
+{
+  "name": "Section 2",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "header_text",
+      "label": "Header Text"
+    },
+    {
+      "type": "range",
+      "id": "number_of_products",
+      "label": "Number of products to show",
+      "min": 1,
+      "max": 6,
+      "default": 3
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product_block",
+      "name": "Product Block",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Select product"
+        },
+        {
+        "type": "range",
+        "id": "icon_top",
+        "label": "Icon Top Position",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "icon_left",
+        "label": "Icon Left Position",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "default": 0
+      }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Section 2"
+    }
+  ],
+  "max_blocks": 6
+}
+{% endschema %}
