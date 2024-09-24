@@ -105,6 +105,10 @@
                     </h2>
                   </a>
                 </div>
+                {% comment %} {% for variant in product.variants %}
+                    <p>Variant ID: {{ variant.id }}</p>
+                {% endfor %}
+                {{ product.selected_or_first_available_variant.id }} {% endcomment %}
               {%- when 'price' -%}
                 <div id="price-{{ section.id }}" role="status" {{ block.shopify_attributes }}>
                   {%- render 'price',

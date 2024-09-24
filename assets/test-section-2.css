@@ -1,0 +1,434 @@
+.section2{
+    margin: 0 30px;
+}
+.heading h2{
+    font-size: 36px;
+    font-family: "Lustria", serif;
+    font-weight: 400;
+    
+}
+.product-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Adjusts spacing between items */
+    gap: 20px;
+  }
+  
+  .product-item {
+    text-align: center;
+    position: relative;
+    min-height: 120px;
+    min-width: 99px;
+    max-width: 919px;
+    max-height: 943px;
+    flex: 1 1 calc(33.33% - 20px);
+    box-sizing: border-box;
+
+  }
+  .product-item::before {
+    content: "";
+    display: block;
+    padding-top: 100%; /* 1:1 Aspect Ratio (Square) */
+}
+  .product-img-main{
+    position: absolute; /* Position the image within the square */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Cover the entire area */
+  }
+  .plus-icon {
+    cursor: pointer;
+  }
+
+  /* popup settings */
+  .popup {
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 311px;
+    height: 447px;
+    background-color: white;
+    z-index: 1000; /* Above the overlay */
+  }
+  
+  .overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.2); /* Semi-transparent background */
+    z-index: 999; /* Below the popup content */
+  }
+
+  .popup-content {
+    background-color: #fff;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    box-shadow: 0 4px 10px #0003;
+    padding: 20px;
+    z-index: 3;
+    
+  }
+  
+  .popup-image {
+    flex: 0 0 35%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 140px;
+    width: 120px;
+    margin-top: 25px;
+  }
+  
+  .popup-image img {
+    width: 120px;
+    height: 140px;
+    object-fit: cover;
+    padding-top: 0px;
+  }
+  
+  .popup-info {
+    flex: 0 0 65%;
+    padding: 9px 10px;
+    box-sizing: border-box;
+    line-height: 1.5;
+  }
+  .popup-info h2{
+    font-size: 16px;
+    font-family: Jost, sans-serif;
+    font-weight: 300;
+    line-height: 19.2px;
+    margin-bottom: 0;
+    color: #000;
+    width: 81%;
+  }
+  #popup-price{
+    font-family: "Lustria", serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: black;
+    line-height: 19.2px;
+    margin: 0;
+    margin-top: 12px;
+  }
+  #popup-description{
+    font-size: 12px;
+    font-family: Jost, sans-serif;
+    font-weight: 300;
+    color: #000;
+    margin: 4px 0 0;
+    text-wrap: balance;
+    width: 94%;
+    line-height: 13.2px;
+  }
+  
+  
+  .close {
+    color: black;
+    font-size: 28px;
+    font-weight: 700;
+    position: absolute;
+    top: 0px;
+    right: 15px;
+    cursor: pointer;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+  }
+
+  /* Color buttons */
+  .color-option-heading{
+    position: fixed;
+    z-index: 20;
+    top: 40.7%;
+    font-size: 14px;
+    left: 6.5%;
+    font-weight: 400;
+    line-height: 18.2px;
+  }
+  .color-options-container{
+    display: flex;
+    position: fixed;
+    top: 49.3%;
+    min-height: 40.44px;
+    left: 6.5%;
+    right: 6.5%;
+    width: 271px;
+    column-gap: 0px;
+    row-gap: 0px;
+    z-index: 5;
+    }
+    .col-btn {
+    padding: 0;
+    border: 1px solid black;
+    width: 147px;
+    display: flex;
+    position: relative;
+    overflow: hidden; /* Ensure overflow is hidden */
+    transition: background-color 3s ease-in-out, color 0.3s ease-in-out;
+    position: relative;
+    z-index: 8;
+    background-color: transparent;
+    }
+    .pre_section {
+    min-width: 5.81px;
+    min-height: 100%;
+    border: none;
+    background-color: #fff;
+    z-index: 2;
+    }
+    .flow-animation .pre_section {
+        transition: background-color 0.3s ease; /* Smooth transition */
+    }
+    .btn-text-holder {
+    padding-left: 10px;
+    font-family: Jost;
+    font-size: 18px;
+    font-weight: 400;
+    width: 100%;
+    height: 100%;
+    text-align: left;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+    }
+    .col-btn.selected .btn-text-holder {
+        color: white;
+    }
+    .col-btn.selected .pre_section {
+        background-color: black; /* Color for selected button */
+    }
+    #color-slider {
+        position: absolute;
+        display: none;
+        background-color: black;
+        height: 40.44px;
+        width: 131px; /* Match the button width */
+        top: 49.3%;
+        left: 8%; /* Initial position */
+        transition: left 0.3s ease; /* Smooth transition */
+        z-index: 4; /* Behind the buttons */
+    }
+    .show{
+        display: block!important;
+    }
+
+    /* size-option */
+    .size-option-heading{
+        position: fixed;
+        z-index: 20;
+        top: 58%;
+        font-size: 14px;
+        left: 6.5%;
+        font-weight: 400;
+        line-height: 18.2px;
+    }
+    #size-dropdown-container{
+        position: fixed;
+        font-family: Jost;
+        font-size: 16px;
+        font-weight: 400;
+        z-index: 20;
+        top: 66.2%;
+        left: 6.5%;
+        right: 6.5%;
+        height: 40.44px;
+        width: 271px;
+        text-align: center;
+        cursor: pointer;
+    }
+    .custom-select {
+        position: relative;
+          display: flex;
+          width: 100%;
+          font-family: Arial, sans-serif;
+          align-items: center;
+          border: 1px solid black;
+          background-color: #fff;
+          height: 40px;
+      }
+      
+      .custom-select select {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+      }
+      
+      .select-text {
+        padding: 10px;
+        flex-grow: 1;
+        font-family: Jost;
+        font-size: 16px;
+        font-weight: 400;
+        display: flex;
+        align-items: left; /* Vertically center the text */
+      }
+      .select-text.has-text {
+        justify-content: center; /* Align left when there's text */
+      }
+      .select-options {
+        visibility: hidden;
+        pointer-events: none;
+        position: absolute;
+        max-height: 80px; /* Set maximum height */
+        overflow: hidden; /* Hide overflow */
+        transition: max-height 0.9s ease; /* Transition for sliding effect */
+        top: 100%;
+        left: 0;
+        width: 100%;
+        border: 1px solid #ccc;
+        background-color: #fff;
+        z-index: 10;
+        border-radius: 0; /* Ensure no rounded corners on the dropdown */
+        opacity: 0;
+        transition: opacity 0.7s ease;
+      }
+      .select-options.active {
+        height: auto;
+        visibility: visible;
+        pointer-events: all;
+        opacity: 1;
+        font-family: Jost;
+        font-size: 16px;
+        font-weight: 400;
+        overflow: overlay;
+        scrollbar-width: none;
+        display: block!important;
+        border: 1px solid black;
+        border-top: none;
+        cursor: pointer;
+        margin-top: 2px;
+    }
+      
+      .select-splitter {
+        width: 1px;
+        font-size: 1px;
+        height: 100%;
+        background-color: black;
+      }
+      
+      .select-arrow {
+        padding: 10px;
+        font-size: 16px;
+        pointer-events: none;
+        position: relative;
+        width: 15%;
+        transition: transform 0.3s ease; /* Smooth rotation transition */
+        text-align: center;
+      }
+      .select-arrow img{
+        width: 15px;
+          height: 15px;
+          position: absolute;
+          transition: transform 0.3s ease;
+          left: 35%;
+          top: 20%;
+          right: 0;
+      }
+      
+      .custom-select.open .select-arrow {
+        transform: rotate(-180deg); /* Rotate the arrow when the select box is open */
+      }
+      .custom-select.open .select-options {
+        display: block;
+      }
+      
+      .custom-select:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 30px;
+        background-color: transparent;
+        pointer-events: none;
+      }
+    /* add to cart btn */
+    .add-to-cart {
+        position: absolute;
+        z-index: 19;
+        background-color: black;
+        display: flex;
+        top: 85.9%;
+        width: 271px;
+        height: 40.44px;
+        left: 6.5%;
+        right: 6.5%;
+        text-align: center;
+        align-items: center;
+        justify-content: space-around;
+        text-decoration: none;
+        font-family: Jost;
+        overflow: hidden; /* Ensure the pseudo-element stays inside */
+        color: white;
+        cursor: pointer;
+    }
+    
+    .cart_btn {
+        text-decoration: none;
+        color: white;
+        position: relative;
+        z-index: 1; /* Ensure the text is above the background animation */
+        transition: color 0.3s ease; /* Smooth transition for text color */
+        font-size: 16px;
+    }
+    
+    .add-to-cart::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -150%;
+        width: 100%;
+        height: 100%;
+        background-color: #ff0;
+        transition: left .5s ease;
+        z-index: -1;
+        border: 1px solid #ff0;
+    }
+    
+    .add-to-cart:hover::before {
+        left: 0; /* Slide the background from left to right */
+    }
+    .add-to-cart:hover {
+        color: black;
+    }
+    
+    .add-to-cart:hover {
+        background-position: 0 0; /* Slide yellow from left to right */
+        color: black; /* Change the text color to black on hover */
+    }
+    
+    .add_to_cart_btn {
+        margin-left: 17%;
+    }
+    
+    .add_to_cart_btn_arrow {
+        width: 45px;
+        display: flex;
+        height: 30%;
+        align-self: center;
+    }
+    .black-arrow-cart-btn{
+       position: absolute;
+       opacity: 0; /* Both arrows are initially hidden */
+       transition: opacity 0.7s ease; /* Smooth transition for 0.5s */
+    }
+    .active{
+        opacity: 1;
+    }

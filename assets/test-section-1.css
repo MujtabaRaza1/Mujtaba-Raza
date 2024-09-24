@@ -1,0 +1,427 @@
+.custom-header-section {
+    width: 100%;
+    max-width: 3840px;
+    background-color: #f8f8f8;
+    font-family: "Jost", sans-serif;
+  }
+  
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 5%;
+  }
+  
+  .header-logo h1 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .header-text h1 {
+    text-align: center;
+    font-size: 13px;
+    flex-grow: 1;
+  }
+  
+  /* Button styling */
+  .header-button .button1 {
+    text-decoration: none;
+    background: linear-gradient(to left, yellow 50%, rgba(0, 0, 0, 1) 50%); /* Use rgba for black with full opacity */
+    background-size: 200%; /* Double the width for the animation */
+    background-position: 100% 0%; /* Start with yellow on the left */
+    color: rgba(0, 0, 0, 1); /* Initial text color in full opacity */
+    padding: 10px 65px;
+    box-shadow: none !important;
+    border-color: transparent;
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    transition: background-position 0.4s ease, color 0.4s ease, background-color 0.4s ease; /* Smooth transitions */
+    font-weight: 500;
+    letter-spacing: 0!important;
+}
+  
+  /* Hover effect: animate gradient and change text color */
+  .header-button .button1:hover {
+    background-position: 0% 0%; /* Slide the gradient to the right (black takes over) */
+    color: white; /* Change text to white */
+  }
+  @keyframes fade-out {
+    0%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+    }
+  }
+  
+  /* Faster transition back to the base state */
+  .header-button .button1:not(:hover) {
+    transition: background-position 0.2s ease, color 0.2s ease opacity 0.2s ease; /* Faster transition on mouse leave */
+  }
+  
+  /* Arrow styling */
+  .header-button .arrow {
+    margin-left: 10px;
+    margin-bottom: 5px;
+    font-size: 30px;
+    color: black; /* Initial arrow color */
+    position: absolute;
+    right: 12%;
+  }
+  @keyframes fadeInOut {
+    0%, 100% {
+      opacity: 1; /* Fully visible */
+      color: white; /* Starting color */
+    }
+    50% {
+      opacity: 0; /* Fade out */
+      color: black; /* ending color */
+    }
+  }
+  @keyframes fadeOutIn {
+    0%, 100% {
+      opacity: 1; /* Fully visible */
+      color: black; /* Starting color */
+    }
+    50% {
+      opacity: 0; /* Fade out */
+      color: white; /* ending color */
+    }
+  }
+
+  /* Fade out arrow during button hover */
+  .header-button .button1:hover .arrow {
+    animation: fadeInOut 0.4s ease forwards; /* Fade out and back in */
+  }
+  
+  /* Fade in arrow after transition */
+  .header-button .button1:not(:hover) .arrow {
+    animation: fadeOutIn 0.4s ease forwards; /* Fade out and back in reverse when hover removed*/
+  }
+  .img-btn-container{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+
+  .image-section{
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .image-section img{
+    width: 100%;
+    max-width: 3840px;
+  }
+
+  .image-divider{
+    width: 100%;
+    overflow: hidden;
+    padding-left: 5%;
+  }
+  
+  .image-divider img{
+    width: 100%;
+    max-width: 3840px;
+  }
+  .column-1 h1{
+    font-size: 57px;
+    font-weight: 500;
+    font-family: "Jost";
+  }
+
+  @media (min-width: 1639px){
+    .column-1 h1{
+      font-size: 70px;
+    }
+  }
+  @media (min-width: 1400px){
+    .column-1 p{
+      font-size: 20px;
+    }
+    .bottom-text-info h2 {
+      font-size: 22px!important;
+    }
+  }
+  
+  @media (min-width: 1800px){
+    .column-1 p{
+      font-size: 25px;
+    }
+  }
+  
+
+  .image-divider{
+    display: flex;
+  }
+  
+  .column-1 {
+    flex: 0 0 30%; /* No grow or shrink, and 30% width */
+  }
+  
+  .column-2 {
+    flex: 0 0 70%; /* No grow or shrink, and 70% width */
+  }
+
+  .shop-now-btn .button2 {
+    text-align: center;
+    width: 100%;
+    max-width: 220px;
+    text-decoration: none;
+    background: linear-gradient(to left, black 50%, yellow 50%); /* Use rgba for black with full opacity */
+    background-size: 200%; /* Double the width for the animation */
+    background-position: 100% 0%; /* Start with yellow on the left */
+    color: white; /* Initial text color in full opacity */
+    padding: 10px 65px;
+    box-shadow: none !important;
+    border-color: transparent;
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    transition: background-position 0.4s ease, color 0.4s ease, background-color 0.4s ease; /* Smooth transitions */
+    font-weight: 500;
+    letter-spacing: 0!important;
+  }
+  @media (max-width: 370px){
+    .shop-now-btn .button2{
+      padding: 10px 35px;
+    }
+  }
+  /* Hover effect: animate gradient and change text color */
+  .shop-now-btn .button2:hover {
+    background-position: 0% 0%; /* Slide the gradient to the right (black takes over) */
+    color: black; /* Change text to white */
+  }
+  
+  /* Faster transition back to the base state */
+  .shop-now-btn .button2:not(:hover) {
+    transition: background-position 0.2s ease, color 0.2s ease; /* Faster transition on mouse leave */
+  }
+  
+  /* Arrow styling */
+  .shop-now-btn .arrow-ico {
+    margin-left: 10px;
+    margin-bottom: 5px;
+    font-size: 30px;
+    color: white; /* Initial arrow color */
+    position: absolute;
+    right: 12%;
+  }
+
+  @keyframes fadeInOutReverse {
+    0%, 100% {
+      opacity: 1; /* Fully visible */
+      color: black; /* Starting color */
+    }
+    50% {
+      opacity: 0; /* Fade out */
+      color: white; /* ending color */
+    }
+  }
+  @keyframes fadeOutInReverse {
+    0%, 100% {
+      opacity: 1; /* Fully visible */
+      color: white; /* Starting color */
+    }
+    50% {
+      opacity: 0; /* Fade out */
+      color: black; /* ending color */
+    }
+  }
+  
+
+  /* Fade out arrow during button hover */
+  .shop-now-btn .button2:hover .arrow-ico {
+    animation: fadeInOutReverse 0.4s ease forwards; /* Fade out and back in */
+  }
+  
+  /* Fade in arrow after transition */
+  .shop-now-btn .button2:not(:hover) .arrow-ico {
+    animation: fadeOutInReverse 0.4s ease forwards; /* Fade out and back in reverse when hover removed*/
+  }
+
+  .bottom-text-info h2{
+    font-size: 16px;
+    text-align: center;
+    line-height: 35px !important;
+    font-family: "Jost";
+    font-weight: 400;
+  }
+
+  @media (min-width: 856px) {
+    .menu-icon {
+        display: none; /* Hide menu icon on larger screens */
+      }
+      .dropdown-content{
+        display: contents;
+      }
+      .header1{
+        display: none;
+      }
+      .img-btn-container .shop-now-btn{
+        display: none;
+      }
+      .data-container .shop-now-btn{
+        display: block;
+      }
+  }
+  @media (max-width: 856px) {
+    .header-content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+    
+  
+    /* Menu Icon on the left */
+    .menu-icon {
+      position: absolute;
+      left: 10%;
+      cursor: pointer;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+    }
+    .menu-icon {
+        cursor: pointer;
+        width: 30px;
+        height: 25px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    
+    .menu-icon span {
+        width: 100%;
+        height: 4px;
+        background-color: black;
+        transition: all 0.3s ease;
+    }
+    
+    .menu-icon.open span:nth-child(1) {
+        transform: translateY(10px) rotate(45deg);
+    }
+    
+    .menu-icon.open span:nth-child(2) {
+        opacity: 0;
+    }
+    
+    .menu-icon.open span:nth-child(3) {
+        transform: translateY(-10px) rotate(-45deg);
+    }
+  
+    /* Center the logo */
+    .header-logo h1 {
+      text-align: center;
+      font-size: 25px;
+    }
+    
+  
+    /* Dropdown content hidden by default */
+    .dropdown-content {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      background-color: white;
+      padding: 0% 10%;
+      padding-bottom: 5%;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      visibility: hidden;
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease, opacity 0.5s ease, visibility 0.5s ease;
+    }
+     .dropdown-content .open{ 
+         display: flex;
+         flex-direction: column;
+         visibility: visible;
+         opacity: 1; 
+         max-height: 300px;
+     } 
+  
+    .header-text h1 {
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+  
+    .header-button a {
+      padding: 10px 20px;
+      font-size: 14px;
+    }
+  
+    .header-button .arrow {
+      font-size: 30px;
+    }
+  }
+  
+  /* Show the dropdown when menu is active */
+  .menu-active .dropdown-content {
+    display: flex;
+    transition: max-height 0.5s ease, opacity 0.5s ease, visibility 0.5s ease;
+    visibility: visible;
+    opacity: 1;
+    max-height: 300px;
+  }
+
+  @media (max-width: 1360px) {
+    .column-1 h1{
+        font-size: 46px;
+      }
+  }
+  @media (max-width: 1120px) {
+    .column-1 h1{
+        font-size: 40px;
+      }
+  }
+  @media (min-width: 900px) and (max-width: 1024px) {
+    .column-1 p{
+        font-size: 13px;
+      }
+  }
+  @media (max-width: 900px){
+    .img-btn-container .shop-now-btn{
+      display: flex;
+    }
+    .img-btn-container .shop-now-btn .buttin2{
+      padding: 0% 40px;
+    }
+
+    .data-container .shop-now-btn{
+        display: none;
+    }
+    .image-section .column-1{
+        text-align: center;
+        width: 80%;
+        margin: 0 auto;
+    }
+    .image-divider{
+      display: none;
+    }
+    .bottom-text-info h2{ 
+      font-size: 10px;
+
+    }
+  }
+  @media (min-width: 857px){
+    .image-container.column-2{
+        display: flex;
+    }
+  }
+
+  @media (max-width: 856px) {
+    .image-container.column-2{
+        display: none;
+    }
+    .img-btn-container img{
+      min-height: 264px;
+      min-width: 1080px;
+    }
+  }
+  
