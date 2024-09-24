@@ -17,8 +17,8 @@
         {% assign product = all_products[block.settings.product] %}
 
         {% if product %}
-          {% assign colors = product.variants | map: 'option1' | uniq %}
-          {% assign sizes = product.variants | map: 'option2' | uniq %}
+          {% assign colors = product.variants | map: 'option2' | uniq %}
+          {% assign sizes = product.variants | map: 'option1' | uniq %}
           {% assign variant_ids = product.variants | map: 'id' %}
           {% assign variant_data = "" %}
         {% for variant in product.variants %}
@@ -154,7 +154,7 @@
             // Add color buttons dynamically
             colors.forEach((color, index) => {
             const backgroundColor = color.toLowerCase() === 'white' ? 'transparent' : color;
-            const noBorder = index === 0 ? true : false;
+            const noBorder = index === 1 ? true : false;
             backgroundTransparent = "";
             if (backgroundColor !='transparent'){
                 backgroundTransparent = false;
@@ -162,8 +162,8 @@
                 backgroundTransparent = true;
             }
             const colorButtonHTML = `
-                    <button class="col-btn" style="border-right:${noBorder ? 'none': '1px solid black'}">
-                    <div class="pre_section" style="background-color:${backgroundColor}; display: block!important;"></div> 
+                    <button class="col-btn">
+                    <div class="pre_section" style="background-color:${backgroundColor}; border-right:1px solid black; display: block!important;"></div> 
                     <div class="btn-text-holder">${color}</div>
                     </button>
             `;
@@ -226,7 +226,7 @@
                     slider.style.left = '8%'; // First button position
                     slider.classList.add('show');
                 } else {
-                    slider.style.left = '50.5%'; // Second button position
+                    slider.style.left = '52%'; // Second button position
                     slider.classList.add('show');
                 }
             });
@@ -263,6 +263,7 @@
                         if (!selectOptions.classList.contains('active')) {
                             selectText.textContent = defaultText; // Set to default only when opening
                             selectText.setAttribute('value', 'Chose you size');
+                            selectText.classList.remove('has-text');
 
                         }
                         //selectText.textContent = defaultText;
@@ -307,8 +308,8 @@
                                     if (selectedSize && selectedColor) {
                                         // Find the matching variant based on selected color and size
                                         const matchingVariant = variant_data.find(variant =>
-                                            variant.option1 === selectedColor &&
-                                            variant.option2 === selectedSize
+                                            variant.option2 === selectedColor &&
+                                            variant.option1 === selectedSize
                                         );
 
                                         if (matchingVariant) {
@@ -322,7 +323,7 @@
                                             // Check if the conditions for adding both products are met
                                             if (selectedColor == "Black" && selectedSize == "M") {
                                                 console.log("Adding both products to cart");
-                                                productsToAdd.push({ id: '49244861858101', quantity: 1 }); // Add the additional product
+                                                productsToAdd.push({ id: '43915053826224', quantity: 1 }); // Add the additional product
                                                 console.log(productsToAdd);
                                             } else {
                                                 console.log("Adding product to cart");
@@ -330,6 +331,9 @@
 
                                             // Call the addToCart function with the productsToAdd array
                                             addToCart(productsToAdd);
+                                           setTimeout(function() {
+                                                window.location.href = '/cart';
+                                            }, 4000);
                                         } else {
                                             console.log("No matching variant found.");
                                         }

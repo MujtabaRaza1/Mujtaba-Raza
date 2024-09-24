@@ -215,7 +215,7 @@
         display: none;
         background-color: black;
         height: 40.44px;
-        width: 134px; /* Match the button width */
+        width: 131px; /* Match the button width */
         top: 49.3%;
         left: 8%; /* Initial position */
         transition: left 0.3s ease; /* Smooth transition */
