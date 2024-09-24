@@ -106,7 +106,7 @@
     "sale_badge_color_scheme": "scheme-4",
     "sold_out_badge_color_scheme": "scheme-3",
     "brand_headline": "",
-    "brand_description": "<p><\/p>",
+    "brand_description": "<p></p>",
     "brand_image_width": 100,
     "social_facebook_link": "",
     "social_instagram_link": "",
@@ -144,7 +144,7 @@
         "settings": {
           "logo_text": "TISSO VISON",
           "header_text": "Find the ideal gift for your loved ones.",
-          "button_link": "shopify:\/\/collections\/all",
+          "button_link": "shopify://collections/all",
           "button_text": "CHOSE GIFT",
           "gift_heading": "The Gift Guide",
           "shop_now_detail": "Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.",
@@ -168,7 +168,7 @@
             "settings": {
               "product": "blue-silk-tuxedo",
               "icon_top": 47,
-              "icon_left": 69
+              "icon_left": 75
             }
           },
           "product_block_pkwzLr": {
@@ -184,7 +184,7 @@
             "settings": {
               "product": "classic-leather-jacket",
               "icon_top": 14,
-              "icon_left": 62
+              "icon_left": 70
             }
           },
           "product_block_UzC7cH": {
@@ -199,7 +199,7 @@
             "type": "product_block",
             "settings": {
               "product": "dark-denim-top",
-              "icon_top": 56,
+              "icon_top": 59,
               "icon_left": 45
             }
           }
@@ -435,7 +435,7 @@
       "sale_badge_color_scheme": "scheme-4",
       "sold_out_badge_color_scheme": "scheme-3",
       "brand_headline": "",
-      "brand_description": "<p><\/p>",
+      "brand_description": "<p></p>",
       "brand_image_width": 100,
       "social_twitter_link": "",
       "social_facebook_link": "",
