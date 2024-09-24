@@ -1,6 +1,9 @@
 {{ 'test-section-2.css' | asset_url | stylesheet_tag }}
 <div class="overlay" id="overlay">&nbsp</div> <!-- Overlay -->
 <section class="section2">
+    <div id="loading-screen" style="display:none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.8); z-index: 9999; text-align: center; padding-top: 20%;">
+        <p>Redirecting... Please wait</p>
+    </div>
     {% if section.settings.header_text != null %}
     <div class="heading">
         <h2>{{ section.settings.header_text }}</h2>
@@ -332,8 +335,14 @@
                                             // Call the addToCart function with the productsToAdd array
                                             addToCart(productsToAdd);
                                            setTimeout(function() {
+                                            // Show the loading screen
+                                            document.getElementById('loading-screen').style.display = 'block';
+
+                                            // Redirect after 4 seconds
+                                            setTimeout(function() {
                                                 window.location.href = '/cart';
                                             }, 4000);
+                                        }, 0); // Start immediately
                                         } else {
                                             console.log("No matching variant found.");
                                         }
