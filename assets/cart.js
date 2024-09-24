@@ -169,42 +169,44 @@ class CartItems extends HTMLElement {
           if (sizeOption && sizeOption.value === 'M' && colorOption && colorOption.value === 'Black') {
             return item;
           }
-        }).filter(item => item !== undefined);
+        }).filter(item => item !== undefined); // filtering out the options to check how many products with variant black and medium exist to set the additional product limit accordingly.
         console.log(matchingItems);
 
         let totalItems = 0; // Initialize totalItems to 0
 
+        // adding all the quantity of the items filtered right above
         matchingItems.forEach((item) => {
           totalItems += item.quantity; // Add item.quantity to totalItems
         });
 
         console.log('total matching items' + totalItems);
 
+        //checking if the additional product exist in the cart
         const itemToUpdate = parsedState.items.find(item => item.id === 43915053826224);
 
         if (itemToUpdate) {
-          // Check if the item's quantity is greater than totalItems
+          // Check if the additional item's quantity is greater than totalItems
           if (itemToUpdate.quantity > totalItems) {
-            // Use Shopify's AJAX API to update the quantity
+            // Using Shopify's AJAX API to update the quantity
             fetch('/cart/change.js', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
               },
               body: JSON.stringify({
-                id: itemToUpdate.key, // Use the "key" to identify the item in the cart
-                quantity: totalItems, // Update the quantity to totalItems
+                id: itemToUpdate.key, // Using the "key" to identify the item in the cart
+                quantity: totalItems, // Updating the quantity to totalItems
               }),
             })
             .then(response => response.json())
             .then((updatedCart) => {
               console.log('Cart updated:', updatedCart);
               location.reload();
-              const itemContainer = document.querySelector(`.cart-item[data-id="${itemToUpdate.id}"]`); // Replace '.cart-item' with your actual item container class
+              const itemContainer = document.querySelector(`.cart-item[data-id="${itemToUpdate.id}"]`); // selecting the quantity buttons for the additional items 
               if (itemContainer) {
                 const quantityButton = itemContainer.querySelector('.quantity__button');
                 if (quantityButton) {
-                  quantityButton.disabled = true; // Disable the button
+                  quantityButton.disabled = true; // Disabling the button
                   console.log('Quantity button disabled.');
                 }
               }
@@ -218,7 +220,7 @@ class CartItems extends HTMLElement {
         } else {
           console.log('Item with ID 43915053826224 does not exist.');
         }
-        
+
         const quantityElement =
           document.getElementById(`Quantity-${line}`) || document.getElementById(`Drawer-quantity-${line}`);
         const items = document.querySelectorAll('.cart-item');
